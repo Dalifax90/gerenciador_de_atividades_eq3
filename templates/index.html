@@ -1,43 +1,40 @@
-<!doctype html>
-<html lang="en">
-<head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Flask To-Do (Static Demo)</title>
-  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-</head>
-<body>
-  <main class="container">
-    <header class="header">
-      <h1 class="logo">📝 Flask To-Do</h1>
-    </header>
+{% extends "base.html" %}
 
-    <!-- Static demo version (NO Jinja) -->
-    <section class="card">
-      <form action="#" method="post" class="add-form">
-        <input name="title" placeholder="What do you need to do?" autocomplete="off" autofocus />
-        <button type="submit">Add</button>
-      </form>
-    </section>
+{% block content %}
+
+<section class="card">
+  <form action="{{ url_for('add') }}" method="post" class="add-form">
+    <input name="title" required placeholder="What do you need to do?">
+    <button type="submit">Add</button>
+  </form>
+</section>
+
+<!-- Static demo version (NO Jinja) -->
 
     <section class="card">
+    {% if tasks %}
       <ul class="tasks">
-        <li class="task">
-          <button class="toggle" title="Mark complete/undo" aria-label="toggle">✓</button>
-          <span class="title">Buy groceries</span>
-          <button class="delete" title="Delete" aria-label="delete">×</button>
-        </li>
-        <li class="task done">
-          <button class="toggle" title="Mark complete/undo" aria-label="toggle">✓</button>
-          <span class="title">Finish Flask project</span>
-          <button class="delete" title="Delete" aria-label="delete">×</button>
-        </li>
-      </ul>
+      {% for task in tasks %}
+          <li class="task{% if task.done %} done{% endif %}">
+
+            <button class="toggle" type="button">✓</button>
+
+            <span class="title">{{ task.title }}</span>
+
+            <form action="{{url_for('delete', task_id=task.id)}}" method="post">
+
+              <button class="delete" title="Delete" type="submit">×</button>
+           
+            </form>
+
+          </li>
+     {% endfor %}
+     </ul>
+
+      {% else %}
+        <p class="empty">Nenhuma tarefa ainda.</p>
+      {% endif %}
+
     </section>
 
-    <footer class="footer">
-      <small>Built with Flask &amp; SQLite</small>
-    </footer>
-  </main>
-</body>
-</html>
+{% endblock %}
