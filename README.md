@@ -3,6 +3,6 @@
 ## Membros da Equipe 3
 - Gustavo Guarlott
 - Guilherme Amaral
-- Bruno 
+- Bruno Brás Barros
 - Eric
 - Cláudio Von Ehnert
